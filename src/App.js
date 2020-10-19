@@ -4,12 +4,17 @@ import TodoList from "./components/TodoList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { v4 } from "uuid";
 class App extends Component {
+
+ storedTodos
+
   state = {
     items: [],
     id: v4(),
     title: "",
     editItem: false,
   };
+  
+
   handleChange = (e) => {
     this.setState({
       title: e.target.value,
@@ -53,6 +58,18 @@ class App extends Component {
       });
     }
   };
+
+  componentDidMount(){
+    this.storedTodos=JSON.parse(localStorage.getItem('todoList'))
+    if(localStorage.getItem('todoList')){
+      this.setState({items:this.storedTodos})
+    }
+  }
+  componentDidUpdate(){
+    localStorage.setItem('todoList', JSON.stringify(this.state.items))
+  }
+
+
 
   render() {
     return (
